@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block bodyBlock %}
+    <h1>Top10 BitCoin prices</h1>
+    <hr>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Symbol</th>
+            <th>Price USD</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for coin in coins %}
+            <tr class="{% if coin.percent_change_1h.0 == '-' %}text-danger{% else %}text-info{% endif %}">
+                <td>{{ coin.rank }}</td>
+                <td>{{ coin.name }}</td>
+                <td>{{ coin.symbol }}</td>
+                <td>$ {{ coin.price_usd }}</td>
+                <td>{{ coin.percent_change_1h }} %</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock bodyBlock %}

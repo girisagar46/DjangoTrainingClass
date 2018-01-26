@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block bodyBlock %}
+    <p>a random number = {{ num_list }}</p>
+    <p class="text-success">list of numbers:</p>
+    <ul>
+        {% for num in num_list %}
+      {% if num|divisibleby:2 %}
+                <li>{{ num }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock bodyBlock %}
