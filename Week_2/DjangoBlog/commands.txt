@@ -1,5 +1,16 @@
+python manage.py runserver
+python manage.py runserver	0.0.0.0:8080
+
+
+# After alerting table or creating a DB
+python	manage.py makemigrations
+python	manage.py makemigrations <app_name>
+
+# After making migrations
 python manage.py migrate
 
-python manage.py runserver
+# To create an admin
+python manage.py createsuperuser
 
-python manage.py runserver	0.0.0.0:8080
+# Django shell
+python	manage.py	shell
