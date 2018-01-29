@@ -4,7 +4,7 @@ python manage.py runserver	0.0.0.0:8080
 
 # After alerting table or creating a DB
 python	manage.py makemigrations
-python	manage.py makemigrations <app_name>
+python	manage.py makemigrations blog
 
 # After making migrations
 python manage.py migrate
