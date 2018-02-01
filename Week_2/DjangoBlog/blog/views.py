@@ -1,7 +1,11 @@
 from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
 from django.views.generic import TemplateView
+from django.shortcuts import redirect
 
 from .models import Blog
+from .forms import PostForm
+from django.contrib.auth.models import User
 
 
 class PostListView(TemplateView):
@@ -37,3 +41,25 @@ def post_detail(request, pk):
 #         context = {"blogs": blogs}
 #
 #         return context
+
+
+def search(request):
+    query = request.GET.get('title')
+    results = []
+    if(query):
+        results = Blog.objects.filter(title__contains=query)
+    return render(request, 'blog/results.html', context={'results':results})
+
+
+def post_new(request):
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = User.objects.get(username="root")
+            post.published_date = timezone.now()
+            post.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm()
+    return render(request, 'blog/post_edit.html', {'form': form})

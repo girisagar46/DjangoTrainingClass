@@ -12,9 +12,12 @@
 </head>
 <body>
 {% include 'blog/snippets/nav.html' %}
-{% block body %}
 
-{% endblock body %}
+<div class="container">
+    {% block body %}
+
+    {% endblock body %}
+</div>
 
 {% include 'blog/snippets/js.html' %}
 </body>

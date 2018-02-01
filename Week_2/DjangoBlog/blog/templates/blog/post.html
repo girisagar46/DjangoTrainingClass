@@ -3,13 +3,15 @@
     Posts | {{ block.super }}
 {% endblock title %}
 {% block body %}
-    <div class="container">
-        <div class="post">
-            {% for blog in blogs %}
-                <h1><a href="{% url 'post_detail' pk=blog.pk %}">{{ blog.title }}</a></h1>
-                <small>{{ blog.created_date }}</small>
-                <p>{{ blog.text|truncatechars:30 }}</p>
-            {% endfor %}
-        </div>
+    <a href="{% url 'post_new' %}" class="btn btn-success">Create New Blog Post</a>
+
+    <div class="post">
+        {% for blog in blogs %}
+            <h1><a href="{% url 'post_detail' pk=blog.pk %}">{{ blog.title }}</a></h1>
+            <small>{{ blog.created_date }}</small>
+            <p>{{ blog.text|truncatechars:30 }}</p>
+        {% empty %}
+            No blog entries found
+        {% endfor %}
     </div>
 {% endblock body %}
