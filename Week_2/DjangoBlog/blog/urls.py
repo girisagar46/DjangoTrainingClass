@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.views.generic import TemplateView
 
 from .views import ContactView, PostDetailView, PostListView, search, post_new
@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^contact/', ContactView.as_view(), name='contact'),
     url(r'^search/', search, name='search'),
     url(r'^new/$', post_new, name='post_new'),
+    url(r'^accounts/', include('django.contrib.auth.urls')),
 ]
