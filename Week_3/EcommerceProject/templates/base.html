@@ -1,0 +1,27 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            E-commerce
+        {% endblock title %}
+    </title>
+
+    {% include 'snippets/css.html' %}
+</head>
+<body>
+{% include 'snippets/nav.html' %}
+
+<div class="container">
+    {% comment %}<img src="{% static 'images/img.jpg' %}" alt="test image" width="100px" height="200px">{% endcomment %}
+
+    {% block bodyBlock %}
+
+    {% endblock bodyBlock %}
+</div>
+
+{% include 'snippets/js.html' %}
+</body>
+</html>
