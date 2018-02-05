@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
 {% block bodyBlock %}
-    {% for product in products %}
+    {% for product in object_list %}
         <p class="text-capitalize">{{ product.title }}</p>
         <p>{{ product.description }}</p>
         <p>{{ product.price }}</p>
+        <p>{{ product.image }}</p>
+        <img src="media/{{ product.image }}" alt="">
     {% endfor %}
 {% endblock bodyBlock %}
