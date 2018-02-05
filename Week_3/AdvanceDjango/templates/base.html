@@ -1,0 +1,28 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            Restaurant App
+        {% endblock title %}
+    </title>
+
+    {% include 'snippets/css.html' %}
+</head>
+<body>
+
+{% comment %}{% include 'snippets/hero_content.html' %}{% endcomment %}
+
+{% include 'snippets/nav.html' %}
+<div class="container">
+
+    {% block bodyBlock %}
+
+    {% endblock bodyBlock %}
+</div>
+
+{% include 'snippets/js.html' %}
+</body>
+</html>
