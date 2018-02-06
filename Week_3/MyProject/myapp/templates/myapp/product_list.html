@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block bodyBlock %}
+<h1>Product List</h1>
+<div>
+    {% for obj in object_list %}
+    <p>{{ obj.title }} - {{ obj.price }}</p>
+{% endfor %}
+</div>
+{% endblock bodyBlock %}
