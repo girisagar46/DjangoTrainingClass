@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load pagination_tags %}
+
+
+{% block bodyBlock %}
+    {% autopaginate object_list 1 %}
+    We found <span class="text-info">{{ count }}</span> restaurants based on your query.
+    <ul class="list-group">
+        {% for obj in object_list %}
+            <li class="list-group-item"><a href="#">{{ obj.name }} - {{ obj.location }} </a></li>
+        {% endfor %}
+    </ul>
+    {% paginate %}
+{% endblock bodyBlock %}
