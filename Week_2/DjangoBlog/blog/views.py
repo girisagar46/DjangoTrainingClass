@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
 from django.views.generic import TemplateView
@@ -44,19 +46,27 @@ def post_detail(request, pk):
 
 
 def search(request):
-    query = request.GET.get('title')
+    query = request.GET.get('searchQuery')
     results = []
+    count = 0
     if(query):
-        results = Blog.objects.filter(title__contains=query)
-    return render(request, 'blog/results.html', context={'results':results})
+        results = Blog.objects.filter(
+            Q(title__contains=query) |
+            Q(text__contains=query)
+        )
+        count = results.count()
+    return render(request, 'blog/results.html', context={'results':results, 'count':count})
 
 
+@login_required
 def post_new(request):
+    print(request.__dict__)
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.author = User.objects.get(username="root")
+            # post.author = User.objects.get(username=request.username)
+            post.author = request.user
             post.published_date = timezone.now()
             post.save()
             return redirect('post_detail', pk=post.pk)

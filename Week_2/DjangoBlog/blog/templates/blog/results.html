@@ -1,6 +1,7 @@
 {% extends 'blog/base.html' %}
 
 {% block body %}
+    {{ count }} results found based on your query.
     <ul>
         {% for res in results %}
             <li>
