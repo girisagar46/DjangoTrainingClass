@@ -1,13 +1,26 @@
 {% extends 'blog/base.html' %}
+{% load blog_tags %}
 {% block title %}
     Posts Detail | {{ block.super }}
 {% endblock title %}
 {% block body %}
     <div class="container">
         <div class="post">
-            <h1>{{ post.title }}</h1>
+            <h1>{{ post.title|capitalizeTitle }}</h1>
             <small>{{ post.created_date|date:"D d M Y" }}</small>
             <p>{{ post.text }}</p>
         </div>
     </div>
+    <hr>
+    <p>Similar blogs:</p>
+    {% similar post.title post.pk as similars%}
+
+    <ul>
+        {% for blog in similars %}
+            <li><a href="{% url 'post_detail' pk=blog.pk %}">{{ blog.title }}</a></li>
+        {% empty %}
+            <p>No similar blog found.</p>
+        {% endfor %}
+    </ul>
+
 {% endblock body %}
