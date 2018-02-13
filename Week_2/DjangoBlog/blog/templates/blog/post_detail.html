@@ -12,6 +12,28 @@
         </div>
     </div>
     <hr>
+
+    <section id="comments">
+        {% for comment in comments %}
+            <div class="comment">
+                <p class="info">Comment {{ forloop.counter }} by {{ comment.name }} {{ comment.created }}</p>
+                {{ comment.body|linebreaks }}
+            </div>
+        {% empty %}
+            <p>There are no comments yet.</p>
+        {% endfor %}
+        <h2>Add a new comment</h2>
+        {% if user.is_authenticated %}
+            <form action="." method="post">
+                {{ comment_form.as_p }}
+                {% csrf_token %}
+                <p><input type="submit" value="Add comment"></p>
+            </form>
+        {% else %}
+            <p>Please <a href="{% url 'login' %} ">login</a> first to comment</p>
+        {% endif %}
+    </section>
+    <hr>
     <p>Similar blogs:</p>
     {% similar post.title post.pk as similars%}
 

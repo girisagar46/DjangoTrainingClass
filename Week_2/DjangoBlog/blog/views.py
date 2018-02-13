@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from django.shortcuts import redirect
 
 from .models import Blog
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 from django.contrib.auth.models import User
 
 
@@ -24,9 +24,22 @@ class ContactView(TemplateView):
 class PostDetailView(TemplateView):
     def get(self, request, *args, **kwargs):
         post = get_object_or_404(Blog, pk=kwargs.get("pk"))
-        ctx = { "post": post }
+        comments = post.comments.filter(active=True)
+        comment_form = CommentForm()
+        ctx = { "post": post, "comments":comments , "comment_form":comment_form}
         return render(request, "blog/post_detail.html", context=ctx)
 
+    @login_required
+    def post(self, request, *args, **kwargs):
+        print("post called")
+        print(request.__dict__)
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            new_comment = comment_form.save(commit=False)
+            post = get_object_or_404(Blog, pk=kwargs.get("pk"))
+            new_comment.post = post
+            new_comment.save()
+            return redirect('post_detail', pk=post.pk)
 
 def post_detail(request, pk):
     post = get_object_or_404(Blog, pk=pk)
