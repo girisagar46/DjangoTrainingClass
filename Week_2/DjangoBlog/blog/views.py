@@ -25,28 +25,32 @@ class ContactView(TemplateView):
 
 
 def contact_us(request):
+    contact_form = ContactForm()
     if request.method == "POST":
-        name = request.POST.get('name', '')
-        user_email = request.POST.get('email', '')
-        text = request.POST.get('text', '')
-        context = {
-            'name': name,
-            'email': user_email,
-            'text': text,
-        }
-        template = get_template('contact_template.txt')
-        content = template.render(context=context)
-        email = EmailMessage(
-            "New comment is added in your blog.",
-            content,
-            BLOG_NAME + '',
-            [DEFAULT_FROM_EMAIL],
-            headers={'Reply-To': user_email}
-        )
-        email.send()
-        return redirect('contact')
-    else:
-        contact_form = ContactForm()
+        if contact_form.is_valid():
+            print("Form Valid")
+            name = request.POST.get('name', '')
+            user_email = request.POST.get('email', '')
+            text = request.POST.get('text', '')
+            context = {
+                'name': name,
+                'email': user_email,
+                'text': text,
+            }
+            template = get_template('contact_template.txt')
+            content = template.render(context=context)
+            email = EmailMessage(
+                "New comment is added in your blog.",
+                content,
+                BLOG_NAME + '',
+                [DEFAULT_FROM_EMAIL],
+                headers={'Reply-To': user_email}
+            )
+            email.send()
+            return redirect('contact')
+        else:
+            print("Form InValid")
+            return redirect('contact')
     return render(request, 'blog/contacts.html', {"contact_form": contact_form})
 
 
