@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dj_pagination',
-    'blog'
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -126,3 +126,15 @@ STATIC_ROOT	=	os.path.join(BASE_DIR, 'blog/static')
 LOGIN_REDIRECT_URL = '/'
 
 BLOG_NAME = "TEST-BLOG"
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'testing@example.com'
+EMAIL_HOST_USER = 'test'
+EMAIL_HOST_PASSWORD = 'test'
+EMAIL_USE_TLS = False
+EMAIL_PORT = 1025
+
+
+
+# For gmail: https://stackoverflow.com/a/27723493/4494547
+# sendgrid: https://simpleisbetterthancomplex.com/tutorial/2016/06/13/how-to-send-email.html

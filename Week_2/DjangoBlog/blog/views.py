@@ -1,13 +1,15 @@
 from django.contrib.auth.decorators import login_required
+from django.core.mail import EmailMessage
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import get_template
 from django.utils import timezone
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
 
 from .models import Blog
-from .forms import PostForm, CommentForm
-from django.contrib.auth.models import User
+from .forms import PostForm, CommentForm, ContactForm
+from DjangoBlog.settings import DEFAULT_FROM_EMAIL, BLOG_NAME
 
 
 class PostListView(TemplateView):
@@ -18,7 +20,34 @@ class PostListView(TemplateView):
 
 
 class ContactView(TemplateView):
-    template_name = 'blog/contacts.html'
+    pass
+    # template_name = 'blog/contacts.html'
+
+
+def contact_us(request):
+    if request.method == "POST":
+        name = request.POST.get('name', '')
+        user_email = request.POST.get('email', '')
+        text = request.POST.get('text', '')
+        context = {
+            'name': name,
+            'email': user_email,
+            'text': text,
+        }
+        template = get_template('contact_template.txt')
+        content = template.render(context=context)
+        email = EmailMessage(
+            "New comment is added in your blog.",
+            content,
+            BLOG_NAME + '',
+            [DEFAULT_FROM_EMAIL],
+            headers={'Reply-To': user_email}
+        )
+        email.send()
+        return redirect('contact')
+    else:
+        contact_form = ContactForm()
+    return render(request, 'blog/contacts.html', {"contact_form": contact_form})
 
 
 class PostDetailView(TemplateView):

@@ -1,0 +1,8 @@
+Contact Name:
+<b>{{ name }}</b>
+
+Email:
+<b>{{ email }}</b>
+
+Text:
+<p>{{ text|safe|striptags }}</p>
