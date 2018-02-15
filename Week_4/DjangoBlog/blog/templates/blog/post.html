@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+{% load pagination_tags %}
+{% load blog_tags %}
+
+{% block title %}
+    Posts | {{ block.super }}
+{% endblock title %}
+{% block body %}
+    {% autopaginate blogs 3 %}
+    {% if user.is_authenticated %}
+        <a href="{% url 'post_new' %}" class="btn btn-success">Create New Blog Post</a>
+    {% endif %}
+
+    <div class="post">
+        {% blog_count %} number of Blogs entered.
+        {% for blog in blogs %}
+            <h1>{{ forloop.counter }}<a href="{% url 'post_detail' pk=blog.pk %}">{{ blog.title|capitalizeTitle }}</a></h1>
+            <small>{{ blog.created_date }}</small>
+            <p>{{ blog.text|truncatechars:30 }}</p>
+
+        {% empty %}
+            No blog entries found
+        {% endfor %}
+    </div>
+
+    {% paginate %}
+{% endblock body %}

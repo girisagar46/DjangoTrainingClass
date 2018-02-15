@@ -1,0 +1,36 @@
+{% load staticfiles %}
+{% load blog_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            DjangoBlog
+        {% endblock title %}
+    </title>
+
+    {% include 'blog/snippets/css.html' %}
+</head>
+<body>
+{% blog_name as my_blog_name %}
+{% include 'blog/snippets/nav.html' with blogname=my_blog_name %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-8">
+            {% block body %}
+
+            {% endblock body %}
+        </div>
+
+        <div class="col-4">
+            <p>Latest Blogs</p>
+            {% latest 2 %}
+        </div>
+    </div>
+</div>
+{% footer %}
+{% include 'blog/snippets/js.html' %}
+</body>
+</html>

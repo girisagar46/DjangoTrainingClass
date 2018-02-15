@@ -1,0 +1,61 @@
+python manage.py runserver
+python manage.py runserver	0.0.0.0:8080
+
+
+# After alerting table or creating a DB
+python	manage.py makemigrations
+python	manage.py makemigrations blog
+
+# After making migrations
+python manage.py migrate
+
+# To create an admin
+python manage.py createsuperuser
+
+# Django shell
+python	manage.py	shell
+
+
+==========================
+
+# Django ORM Query sets
+
+from blog.models import Blog
+Blog.objects.all() --> get everything
+
+-----creating-----
+from django.contrib.auth.models import User
+User.objects.all()
+
+
+me = User.objects.get(username='root')
+Blog.objects.create(author=me,title='My Title', text='This is some dymmy text')
+
+Blog.objects.all()
+
+
+# Filtering
+Blog.objects.filter(author=me)
+Blog.objects.filter(title__contains='title')
+
+from django.utils import timezone
+Blog.objects.filter(created_date__lte=timezone.now())
+
+
+# Executing methods
+post = Blog.objects.get(title="My Title")
+post.publish()
+
+# Ordering
+Blog.objects.order_by('created_date')
+
+# reverse the ordering by adding - ('-created_date')
+
+# Chaining
+Blog.objects.filter(created_date__lte=timezone.now()).order_by('created_date')
+
+# we can also use python methods
+qs = Blog.objects.all()
+len(qs)
+qs.count()
+qs.exists()
