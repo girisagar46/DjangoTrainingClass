@@ -1,8 +1,7 @@
 from django.conf.urls import url, include
 from django.views.generic import TemplateView
 
-from .views import ContactView, PostDetailView, PostListView, search, post_new, contact_us
-
+from .views import ContactView, PostDetailView, PostListView, search, post_new, contact_us, blog_list, blog_detail
 
 urlpatterns = [
     url(r'^$', PostListView.as_view(), name='post_view'),
@@ -13,4 +12,6 @@ urlpatterns = [
     url(r'^search/', search, name='search'),
     url(r'^new/$', post_new, name='post_new'),
     url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^api/', blog_list, name='blog'),
+    # url(r'^api/(?P<pk>\d+)/$', blog_detail, name='blog_detail'),
 ]

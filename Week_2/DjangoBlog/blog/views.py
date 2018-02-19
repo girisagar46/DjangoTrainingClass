@@ -1,12 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
 from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import get_template
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView
 from django.shortcuts import redirect
 
+from blog.serializers import BlogSerializer
 from .models import Blog
 from .forms import PostForm, CommentForm, ContactForm
 from DjangoBlog.settings import DEFAULT_FROM_EMAIL, BLOG_NAME
@@ -119,3 +122,34 @@ def post_new(request):
     else:
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
+
+@csrf_exempt
+def blog_list(request, **kwargs):
+    """
+    List all code snippets, or create a new snippet.
+    """
+    qs = request.META['QUERY_STRING']
+    q, l = qs.split("=")
+    if request.method == 'GET':
+        if(qs):
+            snippets = Blog.objects.all()[:int(l)]
+        else:
+            snippets = Blog.objects.all()
+        serializer = BlogSerializer(snippets, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    # elif request.method == 'POST':
+    #     data = JSONParser().parse(request)
+    #     serializer = SnippetSerializer(data=data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return JsonResponse(serializer.data, status=201)
+    #     return JsonResponse(serializer.errors, status=400)
+
+def blog_detail(request, **kwargs):
+    pass
+    # pk = kwargs.get('pk')
+    # snippets = Blog.objects.get(pk=pk)
+    # serializer = BlogSerializer(snippets, many=True)
+    # print(serializer.data)
+    # return JsonResponse(serializer.data, safe=False)

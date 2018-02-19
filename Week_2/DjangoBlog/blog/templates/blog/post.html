@@ -9,6 +9,7 @@
     {% autopaginate blogs 3 %}
     {% if user.is_authenticated %}
         <a href="{% url 'post_new' %}" class="btn btn-success">Create New Blog Post</a>
+        <a href="{% url 'pdf' %}" class="btn btn-success">GET PDF</a>
     {% endif %}
 
     <div class="post">
